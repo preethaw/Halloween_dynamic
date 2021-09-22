@@ -78,7 +78,6 @@ function setup()
 
   ground=createSprite(300,185,600,10);  
   ground.scale = 0.5;
-//  ground.debug = true;
   ground.addImage("ground",groundImg);
 
   invGround=createSprite(300,198,600,5);  
@@ -127,8 +126,7 @@ function draw()
           
         }
         zombie.velocityY=zombie.velocityY+0.8;
-        //zombie.collide(invGround);
-      
+            
       spawnObstacles();
       spawnWeapon();
       spawnBats();
@@ -156,7 +154,7 @@ function draw()
          
         }
       
-      //console.log(zombie.y);
+    
       //survivalTime=Math.ceil(frameCount/frameRate());
     }
   
@@ -199,15 +197,15 @@ function draw()
   fill("black");
   
   text("Score : "+score,500,25);
-  text("Press b and c  for Halloween Treat!! ",50,25);
+  text("Press UP arrow and DOWN arrow for Halloween Treats!! ",50,25);
   
 }
 
 function spawnObstacles()
 {
- if (frameCount % 300 === 0)
+ if (frameCount % 150 === 0)
  {
-    obstacle = createSprite(600,165,10,40);
+    obstacle = createSprite(600,145,10,40);
     obstacle.velocityX = -6;
     //generate random obstacles
     var rand = Math.round(random(1,4));
@@ -225,7 +223,7 @@ function spawnObstacles()
             break;
     }
             
-    obstacle.scale = 0.2;
+    obstacle.scale = 0.3;
     //obstacle.debug= true;
     obstacle.lifetime = 300;
     obstacle.setCollider("rectangle",0,0,30,180);
@@ -294,11 +292,11 @@ function reset()
 
 
 function keyPressed(){
-  if(keyCode === 66){
+  if(keyCode === 38){
     zombie.changeAnimation("running", zombie_running)
     bFlag = true;
   }
-  if(keyCode === 67){
+  if(keyCode === 40){
     bg.changeImage("bgImage",backgroundImg);
   }
 }
