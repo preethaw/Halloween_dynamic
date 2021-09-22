@@ -1,6 +1,6 @@
 
 var zombie , zombie_running,zombie_collided;
-var weapon , obstacle, obstacleImage;
+var weapon , obstacle, obstacleImage, batImage;
 var ground;
 var weaponGroup, obstacleGroup;
 var score=0;
@@ -17,6 +17,7 @@ function preload()
   
   jumpSound = loadSound("assets/sounds/jump.wav");
   collidedSound = loadSound("assets/sounds/collided.wav");
+  coinSound = loadSound("assets/sounds/coin.wav");
   
   bgWhite = loadImage("assets/bgwhite.png");
   backgroundImg = loadImage("assets/bg.png");
@@ -41,6 +42,7 @@ function preload()
   coin1 = loadImage("assets/coin1.png");
   coin2 = loadImage("assets/coin2.png");
   
+  batImage = loadImage("assets/bat.png");
 
   gameoverImg = loadImage("assets/gameOver.png");
   restartImg = loadImage("assets/restart.png");
@@ -86,13 +88,14 @@ function setup()
   obstacleGroup = createGroup();
   weaponGroup= createGroup();
   
-  gameover=createSprite(300,100);
+  gameover=createSprite(300,70);
   gameover.addImage("gameover",gameoverImg);
   gameover.visible=false;
+  gameover.scale = 0.7;
   
-  restart=createSprite(300,150);
+  restart=createSprite(300,120);
   restart.addImage("restart",restartImg);
-  //restart.scale=0.2;
+  restart.scale=0.7;
   restart.visible=false;
 }
 
@@ -128,6 +131,7 @@ function draw()
       
       spawnObstacles();
       spawnWeapon();
+      spawnBats();
       
       if(zombie.isTouching(weaponGroup))
         {
@@ -136,6 +140,7 @@ function draw()
             if (weaponGroup.get(i).isTouching(zombie)) {
                 weaponGroup.get(i).destroy();
                 score = score + 1;
+                coinSound.play();
             }
 
         }
@@ -194,13 +199,13 @@ function draw()
   fill("black");
   
   text("Score : "+score,500,25);
-  text("Press b for a surprise! ",50,25);
-  text("Press c for a surprise! ",50,50);
+  text("Press b and c  for Halloween Treat!! ",50,25);
+  
 }
 
 function spawnObstacles()
 {
- if (frameCount % 100 === 0)
+ if (frameCount % 300 === 0)
  {
     obstacle = createSprite(600,165,10,40);
     obstacle.velocityX = -6;
@@ -232,7 +237,7 @@ function spawnObstacles()
 function spawnWeapon() 
 {
   if (frameCount % 90 === 0) {
-    weapon = createSprite(600,Math.round(random(10,100)),40,10);
+    weapon = createSprite(600,Math.round(random(50,100)),40,10);
     
     weapon.velocityX = -6;
     weapon.lifeTime=300;
@@ -246,8 +251,22 @@ function spawnWeapon()
               break;
       default: break;
     }
-    weapon.scale = 0.1;
+    weapon.scale = 0.05;
     weaponGroup.add(weapon);
+  }
+}
+
+function spawnBats() 
+{
+  if (frameCount % 150 === 0) {
+    bat = createSprite(600,Math.round(random(10,100)),40,10);
+    
+    bat.velocityX = -4;
+    bat.lifeTime=300;
+    bat.addImage(batImage);
+    
+    bat.scale = 0.05;
+   
   }
 }
 
@@ -271,6 +290,7 @@ function reset()
     zombie.changeAnimation("trex_collided",trex_collided);
   }
 }
+
 
 
 function keyPressed(){
