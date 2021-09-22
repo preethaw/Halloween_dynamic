@@ -223,7 +223,7 @@ function spawnObstacles()
 function spawnCoins() 
 {
   if (frameCount % 90 === 0) {
-    coin = createSprite(600,Math.round(random(50,300)),40,10);
+    coin = createSprite(600,Math.round(random(120,300)),40,10);
     
     coin.velocityX = -6;
     coin.lifeTime=300;
